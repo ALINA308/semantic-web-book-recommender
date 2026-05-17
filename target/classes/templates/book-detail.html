@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::section})}">
+<section>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0" th:text="${book.title}">Book Title</h1>
+        <div>
+            <a class="btn btn-secondary me-2" th:href="@{/books}">Back to Books</a>
+            <a class="btn btn-primary" th:href="@{/books/edit/{id}(id=${book.id})}">Edit</a>
+        </div>
+    </div>
+
+    <div class="card page-card mb-3">
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9" th:text="${book.id}"></dd>
+
+                <dt class="col-sm-3">Title</dt>
+                <dd class="col-sm-9" th:text="${book.title}"></dd>
+
+                <dt class="col-sm-3">Author</dt>
+                <dd class="col-sm-9" th:text="${book.author}"></dd>
+
+                <dt class="col-sm-3">Reading Level</dt>
+                <dd class="col-sm-9" th:text="${book.readingLevel}"></dd>
+
+                <dt class="col-sm-3">Genres</dt>
+                <dd class="col-sm-9">
+                    <span th:each="genre : ${book.genres}" class="badge text-bg-primary me-1"
+                          th:text="${genre}">Genre</span>
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="card page-card" th:if="${not #lists.isEmpty(users)}">
+        <div class="card-header">Users in RDF Dataset</div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" th:each="user : ${users}">
+                    <strong th:text="${user.name}">User</strong>
+                    <span class="text-muted"> - Level: </span><span th:text="${user.userLevel}"></span>
+                    <span class="text-muted">, Prefers: </span><span th:text="${user.prefersGenre}"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+</html>

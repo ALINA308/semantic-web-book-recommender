@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::section})}">
+<section>
+    <div class="mb-3">
+        <h1 class="h3" th:text="${isEdit} ? 'Edit Book' : 'Add Book'">Book Form</h1>
+    </div>
+
+    <div class="card page-card">
+        <div class="card-body">
+            <form method="post" th:action="${formAction}" th:object="${book}">
+                <div class="mb-3">
+                    <label class="form-label" for="title">Title</label>
+                    <input class="form-control" id="title" type="text" th:field="*{title}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="author">Author</label>
+                    <input class="form-control" id="author" type="text" th:field="*{author}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="genresInput">Genres (comma separated)</label>
+                    <input class="form-control" id="genresInput" name="genresInput" type="text"
+                           th:value="${genresInput}" placeholder="Science Fiction, Fantasy" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="readingLevel">Reading Level</label>
+                    <input class="form-control" id="readingLevel" type="text" th:field="*{readingLevel}" required>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit"
+                            th:text="${isEdit} ? 'Update Book' : 'Add Book'">Save</button>
+                    <a class="btn btn-secondary" th:href="@{/books}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::section})}">
+<section>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Books</h1>
+        <a class="btn btn-primary" th:href="@{/books/add}">Add Book</a>
+    </div>
+
+    <div class="card page-card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Genre(s)</th>
+                        <th>Reading Level</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${#lists.isEmpty(books)}">
+                        <td colspan="5" class="text-center py-4">No books available.</td>
+                    </tr>
+                    <tr th:each="book : ${books}">
+                        <td th:text="${book.title}">Title</td>
+                        <td th:text="${book.author}">Author</td>
+                        <td>
+                            <span th:each="genre : ${book.genres}" class="badge text-bg-primary me-1"
+                                  th:text="${genre}">Genre</span>
+                        </td>
+                        <td th:text="${book.readingLevel}">Intermediate</td>
+                        <td>
+                            <a class="btn btn-sm btn-outline-primary me-1" th:href="@{/books/{id}(id=${book.id})}">Detail</a>
+                            <a class="btn btn-sm btn-outline-secondary" th:href="@{/books/edit/{id}(id=${book.id})}">Edit</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+</html>

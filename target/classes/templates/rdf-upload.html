@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::section})}">
+<section>
+    <h1 class="h3 mb-3">Upload RDF/XML</h1>
+
+    <div class="card page-card">
+        <div class="card-body">
+            <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+            <form method="post" enctype="multipart/form-data" th:action="@{/rdf/upload}">
+                <div class="mb-3">
+                    <label class="form-label" for="file">Select .rdf or .xml file</label>
+                    <input class="form-control" id="file" name="file" type="file" accept=".rdf,.xml" required>
+                </div>
+                <button class="btn btn-primary" type="submit">Upload and Parse</button>
+            </form>
+        </div>
+    </div>
+</section>
+</html>

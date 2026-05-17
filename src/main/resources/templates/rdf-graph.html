@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::section})}">
+<section>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">RDF Graph View</h1>
+        <a class="btn btn-secondary" th:href="@{/rdf/upload}">Upload Another File</a>
+    </div>
+
+    <div class="alert alert-info" th:if="${fileName}">
+        Parsed file: <strong th:text="${fileName}">books.rdf</strong>
+    </div>
+
+    <div class="card page-card mb-3">
+        <div class="card-header">Triples</div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped mb-0" id="triplesTable">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Subject</th>
+                        <th>Predicate</th>
+                        <th>Object</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${#lists.isEmpty(triples)}">
+                        <td colspan="3" class="text-center py-4">No triples found.</td>
+                    </tr>
+                    <tr th:each="t : ${triples}"
+                        th:attr="data-subject=${t.subject},data-predicate=${t.predicate},data-object=${t.object}">
+                        <td th:text="${t.subject}"></td>
+                        <td th:text="${t.predicate}"></td>
+                        <td th:text="${t.object}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card page-card">
+        <div class="card-header">Interactive Graph (vis.js)</div>
+        <div class="card-body">
+            <div id="rdfNetwork"></div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://unpkg.com/vis-network@9.1.9/dist/dist/vis-network.min.css">
+    <script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script>
+    <script>
+        (function () {
+            const rows = document.querySelectorAll('#triplesTable tbody tr[data-subject]');
+            const nodeMap = new Map();
+            const edges = [];
+
+            function shortLabel(value) {
+                if (!value) {
+                    return '';
+                }
+                const hashIndex = value.lastIndexOf('#');
+                if (hashIndex >= 0 && hashIndex < value.length - 1) {
+                    return value.substring(hashIndex + 1);
+                }
+                const slashIndex = value.lastIndexOf('/');
+                if (slashIndex >= 0 && slashIndex < value.length - 1) {
+                    return value.substring(slashIndex + 1);
+                }
+                return value;
+            }
+
+            rows.forEach((row, index) => {
+                const subject = row.getAttribute('data-subject') || '';
+                const predicate = row.getAttribute('data-predicate') || '';
+                const object = row.getAttribute('data-object') || '';
+
+                if (!nodeMap.has(subject)) {
+                    nodeMap.set(subject, {
+                        id: subject,
+                        label: shortLabel(subject),
+                        title: subject,
+                        color: '#4f83ff'
+                    });
+                }
+
+                if (!nodeMap.has(object)) {
+                    nodeMap.set(object, {
+                        id: object,
+                        label: shortLabel(object),
+                        title: object,
+                        color: '#20c997'
+                    });
+                }
+
+                edges.push({
+                    id: 'e' + index,
+                    from: subject,
+                    to: object,
+                    label: shortLabel(predicate),
+                    arrows: 'to',
+                    title: predicate
+                });
+            });
+
+            const container = document.getElementById('rdfNetwork');
+            const data = {
+                nodes: new vis.DataSet(Array.from(nodeMap.values())),
+                edges: new vis.DataSet(edges)
+            };
+
+            const options = {
+                layout: {
+                    improvedLayout: true
+                },
+                physics: {
+                    stabilization: true,
+                    barnesHut: {
+                        springLength: 130
+                    }
+                },
+                interaction: {
+                    hover: true,
+                    navigationButtons: true,
+                    keyboard: true
+                },
+                edges: {
+                    font: {
+                        align: 'middle'
+                    },
+                    color: {
+                        color: '#6c757d'
+                    },
+                    smooth: true
+                },
+                nodes: {
+                    shape: 'dot',
+                    size: 18,
+                    font: {
+                        color: '#212529'
+                    }
+                }
+            };
+
+            new vis.Network(container, data, options);
+        })();
+    </script>
+</section>
+</html>
