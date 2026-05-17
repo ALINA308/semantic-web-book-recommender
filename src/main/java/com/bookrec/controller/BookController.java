@@ -46,7 +46,9 @@ public class BookController {
 
     @GetMapping("/books/add")
     public String showAddForm(Model model) {
-        model.addAttribute("book", new Book());
+        Book emptyBook = new Book();
+        emptyBook.setId("");
+        model.addAttribute("book", emptyBook);
         model.addAttribute("genresInput", "");
         model.addAttribute("formAction", "/books/add");
         model.addAttribute("isEdit", false);
@@ -78,6 +80,7 @@ public class BookController {
     public String updateBook(@PathVariable String id,
                              @ModelAttribute Book book,
                              @RequestParam("genresInput") String genresInput) {
+        // Keep URL path id as source of truth for update target.
         book.setId(id);
         book.setGenres(List.of(genresInput));
         rdfService.updateBook(id, book);

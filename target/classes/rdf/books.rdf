@@ -1,63 +1,55 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
     xmlns:bookrec="http://www.semanticweb.org/bookrec#"
-    xml:base="http://www.semanticweb.org/bookrec#">
-
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
   <owl:Ontology rdf:about="http://www.semanticweb.org/bookrec#"/>
-
-  <owl:Class rdf:about="http://www.semanticweb.org/bookrec#User"/>
   <owl:Class rdf:about="http://www.semanticweb.org/bookrec#Book"/>
-
-  <rdf:Property rdf:about="http://www.semanticweb.org/bookrec#hasReadingLevel"/>
-  <rdf:Property rdf:about="http://www.semanticweb.org/bookrec#hasGenre"/>
+  <owl:Class rdf:about="http://www.semanticweb.org/bookrec#User"/>
   <rdf:Property rdf:about="http://www.semanticweb.org/bookrec#prefersGenre"/>
-  <rdf:Property rdf:about="http://www.semanticweb.org/bookrec#hasUserLevel"/>
-  <rdf:Property rdf:about="http://www.semanticweb.org/bookrec#isRecommendedFor"/>
   <rdf:Property rdf:about="http://www.semanticweb.org/bookrec#title"/>
+  <rdf:Property rdf:about="http://www.semanticweb.org/bookrec#hasUserLevel"/>
+  <rdf:Property rdf:about="http://www.semanticweb.org/bookrec#hasGenre"/>
+  <rdf:Property rdf:about="http://www.semanticweb.org/bookrec#hasReadingLevel"/>
   <rdf:Property rdf:about="http://www.semanticweb.org/bookrec#author"/>
-
-  <rdf:Description rdf:about="http://www.semanticweb.org/bookrec#Alice">
-    <rdf:type rdf:resource="http://www.semanticweb.org/bookrec#User"/>
-    <bookrec:hasUserLevel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Intermediate</bookrec:hasUserLevel>
-    <bookrec:prefersGenre rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Science Fiction</bookrec:prefersGenre>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://www.semanticweb.org/bookrec#Bob">
-    <rdf:type rdf:resource="http://www.semanticweb.org/bookrec#User"/>
-    <bookrec:hasUserLevel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Beginner</bookrec:hasUserLevel>
-    <bookrec:prefersGenre rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mystery</bookrec:prefersGenre>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://www.semanticweb.org/bookrec#Dune">
-    <rdf:type rdf:resource="http://www.semanticweb.org/bookrec#Book"/>
-    <bookrec:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Dune</bookrec:title>
-    <bookrec:author rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frank Herbert</bookrec:author>
-    <bookrec:hasGenre rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Science Fiction</bookrec:hasGenre>
-    <bookrec:hasGenre rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fantasy</bookrec:hasGenre>
-    <bookrec:hasReadingLevel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Advanced</bookrec:hasReadingLevel>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://www.semanticweb.org/bookrec#TheSilentPatient">
-    <rdf:type rdf:resource="http://www.semanticweb.org/bookrec#Book"/>
-    <bookrec:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The Silent Patient</bookrec:title>
-    <bookrec:author rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Alex Michaelides</bookrec:author>
-    <bookrec:hasGenre rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mystery</bookrec:hasGenre>
-    <bookrec:hasGenre rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Murder</bookrec:hasGenre>
-    <bookrec:hasReadingLevel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Intermediate</bookrec:hasReadingLevel>
-  </rdf:Description>
-
-  <rdf:Description rdf:about="http://www.semanticweb.org/bookrec#HungerGames">
-    <rdf:type rdf:resource="http://www.semanticweb.org/bookrec#Book"/>
-    <bookrec:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hunger Games</bookrec:title>
-    <bookrec:author rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Suzanne Collins</bookrec:author>
-    <bookrec:hasGenre rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Science Fiction</bookrec:hasGenre>
-    <bookrec:hasGenre rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fantasy</bookrec:hasGenre>
-    <bookrec:hasReadingLevel rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Beginner</bookrec:hasReadingLevel>
-    <bookrec:isRecommendedFor rdf:resource="http://www.semanticweb.org/bookrec#Bob"/>
-  </rdf:Description>
-
+  <rdf:Property rdf:about="http://www.semanticweb.org/bookrec#isRecommendedFor"/>
+  <bookrec:Book rdf:about="http://www.semanticweb.org/bookrec#Dune">
+    <bookrec:title>Dune</bookrec:title>
+    <bookrec:author>Frank Herbert</bookrec:author>
+    <bookrec:hasGenre>Science Fiction</bookrec:hasGenre>
+    <bookrec:hasGenre>Fantasy</bookrec:hasGenre>
+    <bookrec:hasReadingLevel>Advanced</bookrec:hasReadingLevel>
+  </bookrec:Book>
+  <bookrec:Book rdf:about="http://www.semanticweb.org/bookrec#HungerGames">
+    <bookrec:hasGenre>Fantasy</bookrec:hasGenre>
+    <bookrec:hasGenre>Science Fiction</bookrec:hasGenre>
+    <bookrec:hasReadingLevel>Intermediate</bookrec:hasReadingLevel>
+    <bookrec:author>Suzanne Collins</bookrec:author>
+    <bookrec:title>Hunger Games</bookrec:title>
+    <bookrec:isRecommendedFor>
+      <bookrec:User rdf:about="http://www.semanticweb.org/bookrec#Bob">
+        <bookrec:hasUserLevel>Beginner</bookrec:hasUserLevel>
+        <bookrec:prefersGenre>Mystery</bookrec:prefersGenre>
+      </bookrec:User>
+    </bookrec:isRecommendedFor>
+  </bookrec:Book>
+  <bookrec:Book rdf:about="http://www.semanticweb.org/bookrec#HarryPotter">
+    <bookrec:title>Harry Potter</bookrec:title>
+    <bookrec:author>J.K. Rowling</bookrec:author>
+    <bookrec:hasReadingLevel>Beginner</bookrec:hasReadingLevel>
+    <bookrec:hasGenre>Fantasy</bookrec:hasGenre>
+    <bookrec:hasGenre>Adventure</bookrec:hasGenre>
+  </bookrec:Book>
+  <bookrec:Book rdf:about="http://www.semanticweb.org/bookrec#TheSilentPatient">
+    <bookrec:title>The Silent Patient</bookrec:title>
+    <bookrec:author>Alex Michaelides</bookrec:author>
+    <bookrec:hasGenre>Mystery</bookrec:hasGenre>
+    <bookrec:hasGenre>Murder</bookrec:hasGenre>
+    <bookrec:hasReadingLevel>Intermediate</bookrec:hasReadingLevel>
+  </bookrec:Book>
+  <bookrec:User rdf:about="http://www.semanticweb.org/bookrec#Alice">
+    <bookrec:hasUserLevel>Intermediate</bookrec:hasUserLevel>
+    <bookrec:prefersGenre>Science Fiction</bookrec:prefersGenre>
+  </bookrec:User>
 </rdf:RDF>

@@ -138,22 +138,28 @@ public class RdfService {
     public void updateBook(String id, Book book) {
         Model model = loadModel();
         Resource bookResource = model.getResource(BASE_URI + id);
+        Property rdfType = model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+        Resource bookClass = model.createResource(BASE_URI + "Book");
+        Property titleProperty = model.createProperty(BASE_URI + "title");
+        Property authorProperty = model.createProperty(BASE_URI + "author");
+        Property readingLevelProperty = model.createProperty(BASE_URI + "hasReadingLevel");
+        Property genreProperty = model.createProperty(BASE_URI + "hasGenre");
 
-        if (!model.containsResource(bookResource)) {
+        if (!model.contains(bookResource, rdfType, bookClass)) {
             return;
         }
 
-        removeProperty(bookResource, model.createProperty(BASE_URI + "title"));
-        removeProperty(bookResource, model.createProperty(BASE_URI + "author"));
-        removeProperty(bookResource, model.createProperty(BASE_URI + "hasReadingLevel"));
-        removeProperty(bookResource, model.createProperty(BASE_URI + "hasGenre"));
+        model.removeAll(bookResource, titleProperty, null);
+        model.removeAll(bookResource, authorProperty, null);
+        model.removeAll(bookResource, readingLevelProperty, null);
+        model.removeAll(bookResource, genreProperty, null);
 
-        addLiteralIfPresent(bookResource, model.createProperty(BASE_URI + "title"), book.getTitle());
-        addLiteralIfPresent(bookResource, model.createProperty(BASE_URI + "author"), book.getAuthor());
-        addLiteralIfPresent(bookResource, model.createProperty(BASE_URI + "hasReadingLevel"), book.getReadingLevel());
+        addLiteralIfPresent(bookResource, titleProperty, book.getTitle());
+        addLiteralIfPresent(bookResource, authorProperty, book.getAuthor());
+        addLiteralIfPresent(bookResource, readingLevelProperty, book.getReadingLevel());
 
         for (String genre : normalizeGenres(book.getGenres())) {
-            bookResource.addProperty(model.createProperty(BASE_URI + "hasGenre"), genre);
+            bookResource.addProperty(genreProperty, genre);
         }
 
         saveModel(model);
@@ -249,13 +255,35 @@ public class RdfService {
 
     private String normalizeOrGenerateId(String id, String title) {
         if (id != null && !id.isBlank()) {
-            return id.replaceAll("[^a-zA-Z0-9]", "");
+            String sanitizedId = id.replaceAll("\\s+", "")
+                    .replaceAll("[^a-zA-Z0-9]", "");
+            return sanitizedId.isBlank() ? "Book" + System.currentTimeMillis() : sanitizedId;
         }
+
+        String generatedId = buildIdFromTitle(title);
+        return generatedId.isBlank() ? "Book" + System.currentTimeMillis() : generatedId;
+    }
+
+    private String buildIdFromTitle(String title) {
         if (title == null || title.isBlank()) {
-            return "Book" + System.currentTimeMillis();
+            return "";
         }
-        String normalized = title.replaceAll("[^a-zA-Z0-9]", "");
-        return normalized.isBlank() ? "Book" + System.currentTimeMillis() : normalized;
+
+        StringBuilder builder = new StringBuilder();
+        String[] words = title.trim().split("\\s+");
+        for (String word : words) {
+            String cleaned = word.replaceAll("[^a-zA-Z0-9]", "");
+            if (cleaned.isBlank()) {
+                continue;
+            }
+
+            builder.append(Character.toUpperCase(cleaned.charAt(0)));
+            if (cleaned.length() > 1) {
+                builder.append(cleaned.substring(1));
+            }
+        }
+
+        return builder.toString();
     }
 
     private String localName(String uri) {
@@ -279,7 +307,4 @@ public class RdfService {
         }
     }
 
-    private void removeProperty(Resource resource, Property property) {
-        resource.removeAll(property);
-    }
 }

@@ -27,10 +27,7 @@
                     <tr th:each="book : ${books}">
                         <td th:text="${book.title}">Title</td>
                         <td th:text="${book.author}">Author</td>
-                        <td>
-                            <span th:each="genre : ${book.genres}" class="badge text-bg-primary me-1"
-                                  th:text="${genre}">Genre</span>
-                        </td>
+                        <td th:text="${#strings.listJoin(book.genres, ', ')}">Genre(s)</td>
                         <td th:text="${book.readingLevel}">Intermediate</td>
                         <td>
                             <a class="btn btn-sm btn-outline-primary me-1" th:href="@{/books/{id}(id=${book.id})}">Detail</a>

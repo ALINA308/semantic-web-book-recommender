@@ -8,7 +8,8 @@
 
     <div class="card page-card">
         <div class="card-body">
-            <form method="post" th:action="${formAction}" th:object="${book}">
+            <form method="post" th:action="@{${formAction}}" th:object="${book}">
+                <input th:if="${isEdit}" type="hidden" th:field="*{id}">
                 <div class="mb-3">
                     <label class="form-label" for="title">Title</label>
                     <input class="form-control" id="title" type="text" th:field="*{title}" required>
