@@ -1,0 +1,53 @@
+# Query 1: Get all books with title and author
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bookrec: <http://www.semanticweb.org/bookrec/ontology#>
+SELECT ?book ?title ?author
+WHERE {
+  ?book rdf:type bookrec:Book .
+  ?book bookrec:title ?title .
+  ?book bookrec:author ?author .
+}
+
+# Query 2: Get all users with preferred genre and reading level
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bookrec: <http://www.semanticweb.org/bookrec/ontology#>
+SELECT ?user ?genre ?level
+WHERE {
+  ?user rdf:type bookrec:User .
+  ?user bookrec:prefersGenre ?genre .
+  ?user bookrec:hasUserLevel ?level .
+}
+
+# Query 3: Get all Science Fiction books
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bookrec: <http://www.semanticweb.org/bookrec/ontology#>
+SELECT ?book ?title ?genre
+WHERE {
+  ?book rdf:type bookrec:Book .
+  ?book bookrec:title ?title .
+  ?book bookrec:hasGenre ?genre .
+  FILTER(?genre = bookrec:ScienceFiction)
+} 
+
+# Query 4: Get all books suitable for Beginner reading level
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bookrec: <http://www.semanticweb.org/bookrec/ontology#>
+SELECT ?book ?title ?level
+WHERE {
+  ?book rdf:type bookrec:Book .
+  ?book bookrec:title ?title .
+  ?book bookrec:hasReadingLevel ?level .
+  FILTER(?level = bookrec:BeginnerLevel)
+}
+
+# Query 5: Get book recommendations matching user preferred genre
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bookrec: <http://www.semanticweb.org/bookrec/ontology#>
+SELECT ?user ?title ?genre
+WHERE {
+  ?user rdf:type bookrec:User .
+  ?user bookrec:prefersGenre ?genre .
+  ?book rdf:type bookrec:Book .
+  ?book bookrec:title ?title .
+  ?book bookrec:hasGenre ?genre .
+}
